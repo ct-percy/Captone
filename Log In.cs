@@ -16,22 +16,15 @@ namespace IMSLocal
         BindingList<Employees> employees;
         private async void loadData()
         {
-            await Connection.Init();
-
-           employees  = new BindingList<Employees>(await Employees.getEmployees());
-
-            if(employees.Count() == 0)
-            {
-                await Employees.addEmployee(0, "Admin", "Admin", "Admin", "Admin", "Admin", "Admin");
-            }
-
+          
         }
 
         public Log_In()
         {
+            loadData();
             InitializeComponent();
             exitButton.Hide();
-           loadData();
+           
 
         }
 

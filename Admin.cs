@@ -17,7 +17,7 @@ namespace IMSLocal
     {
 
         BindingList<Employees> employees;
-      
+
         public async void loadData()
         {
             employees = new BindingList<Employees>(await Employees.getEmployees());
@@ -54,7 +54,7 @@ namespace IMSLocal
         {
 
             string user = adminUsername.Text;
-            
+
 
             if (string.IsNullOrWhiteSpace(employeeIDTextbox.Text) || (string.IsNullOrWhiteSpace(firstNameTextbox.Text) || (string.IsNullOrWhiteSpace(lastNameTextbox.Text) ||
                 string.IsNullOrWhiteSpace(usernameTextbox.Text) || string.IsNullOrWhiteSpace(passwordTextbox.Text) || (adminRB.Checked == false && userRB.Checked == false))))
@@ -68,12 +68,12 @@ namespace IMSLocal
 
             try
             {
-               int  oldId = int.Parse(employeesDGV.SelectedCells[0].Value.ToString());
-               string oldUser = employeesDGV.SelectedCells[3].Value.ToString();
+                int oldId = int.Parse(employeesDGV.SelectedCells[0].Value.ToString());
+                string oldUser = employeesDGV.SelectedCells[3].Value.ToString();
 
                 for (int i = 0; i < employees.Count(); i++)
                 {
-                    
+
                     if (usernameTextbox.Text == employees[i].userName.ToString() && usernameTextbox.Text != oldUser)
                     {
                         MessageBox.Show("There is already an active employee with this username");
@@ -95,8 +95,8 @@ namespace IMSLocal
             }
             catch
             {
-               
-                
+
+
                 for (int i = 0; i < employees.Count(); i++)
                 {
                     if (employeeIDTextbox.Text == employees[i].employeeID.ToString())
@@ -128,7 +128,7 @@ namespace IMSLocal
             this.Close();
 
 
-            }
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -192,10 +192,23 @@ namespace IMSLocal
 
         private async void deleteButton_Click(object sender, EventArgs e)
         {
-            int employeeId = int.Parse(employeesDGV.SelectedCells[0].Value.ToString());
-            await Employees.deleteEmployee(employeeId);
-            loadData();
-            
+            try
+            {
+               
+                
+                    int employeeId = int.Parse(employeesDGV.SelectedCells[0].Value.ToString());
+                    await Employees.deleteEmployee(employeeId);
+
+
+                    loadData();
+                
+            }
+            catch
+            {
+           
+                MessageBox.Show("No Employee Selected");
+                return;
+            }
         }
 
         private void adminUsername_TextChanged(object sender, EventArgs e)
@@ -251,9 +264,7 @@ namespace IMSLocal
 
         private void editButton_Click(object sender, EventArgs e)
         {
-           
-
-            if (employeesDGV.CurrentRow.Selected == true)
+            try 
             {
                 employeeIDTextbox.Text = employeesDGV.SelectedCells[0].Value.ToString();
                 employeeIDTextbox.Enabled = false;
@@ -271,7 +282,7 @@ namespace IMSLocal
                 }
 
             }
-            else
+            catch
             {
                 MessageBox.Show("Select an employee to edit");
                 return;

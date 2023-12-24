@@ -123,6 +123,7 @@
             // 
             // employeesDGV
             // 
+            this.employeesDGV.AllowUserToAddRows = false;
             this.employeesDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.employeesDGV.Location = new System.Drawing.Point(532, 180);
             this.employeesDGV.Name = "employeesDGV";

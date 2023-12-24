@@ -34,8 +34,7 @@ namespace IMSLocal.Database
         #region Methods and Queries
         public static async Task addEmployee(int employeeId, string firstName, string lastName, string username, string password, string type, string user)
         {
-            await Connection.Init();
-
+          
             var employee = new Employees()
             {
                 employeeID = employeeId,
@@ -58,7 +57,7 @@ namespace IMSLocal.Database
 
         public static async Task<IList<Employees>> getEmployees()
         {
-            await Connection.Init();
+  
 
             var employees = await Connection._db.QueryAsync<Employees>("SELECT * FROM Employees");
 
@@ -145,9 +144,7 @@ namespace IMSLocal.Database
         public static async Task<IList<Parts>> getAllParts()
         {
 
-            await Connection.Init();
-
-
+ 
             var allParts = await Connection._db.QueryAsync<Parts>("SELECT * FROM Parts;");
 
             return allParts;
@@ -222,8 +219,6 @@ namespace IMSLocal.Database
         }
         public static async Task<Products> getProduct(int productId)
         {
-
-            await Connection.Init();
 
 
             var product = await Connection._db.QueryAsync<Products>("SELECT * FROM Products WHERE ProductID =" + productId);
@@ -407,9 +402,6 @@ namespace IMSLocal.Database
 
         public static async Task<IList<Outsource>> getOutsource(int partId)
         {
-
-            await Connection.Init();
-
 
             var part = await Connection._db.QueryAsync<Outsource>("SELECT * FROM Outsource WHERE PartID =" + partId);
 
