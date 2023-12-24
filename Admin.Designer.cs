@@ -241,6 +241,7 @@
             // 
             this.adminPassword.Location = new System.Drawing.Point(628, 57);
             this.adminPassword.Name = "adminPassword";
+            this.adminPassword.PasswordChar = '*';
             this.adminPassword.Size = new System.Drawing.Size(182, 26);
             this.adminPassword.TabIndex = 19;
             this.adminPassword.TextChanged += new System.EventHandler(this.adminPassword_TextChanged);
