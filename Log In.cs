@@ -1,4 +1,4 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class Log_In : Form
     {
@@ -18,11 +18,11 @@ namespace C968_PA
         {
             await Connection.Init();
 
-           employees  = new BindingList<Employees>(await Query.getEmployees());
+           employees  = new BindingList<Employees>(await Employees.getEmployees());
 
             if(employees.Count() == 0)
             {
-                await Query.addEmployee(0, "Admin", "Admin", "Admin", "Admin", "Admin", "Admin");
+                await Employees.addEmployee(0, "Admin", "Admin", "Admin", "Admin", "Admin", "Admin");
             }
 
         }
@@ -79,6 +79,21 @@ namespace C968_PA
         {
             this.Close();
           
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

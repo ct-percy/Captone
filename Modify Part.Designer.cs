@@ -1,4 +1,4 @@
-﻿namespace C968_PA
+﻿namespace IMSLocal
 {
     partial class ModifyPart
     {

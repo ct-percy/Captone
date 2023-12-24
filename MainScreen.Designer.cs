@@ -1,4 +1,4 @@
-﻿namespace C968_PA
+﻿namespace IMSLocal
 {
     partial class MainScreen
     {
@@ -178,9 +178,9 @@
             // 
             // AddProductButton
             // 
-            this.AddProductButton.Location = new System.Drawing.Point(789, 422);
+            this.AddProductButton.Location = new System.Drawing.Point(783, 422);
             this.AddProductButton.Name = "AddProductButton";
-            this.AddProductButton.Size = new System.Drawing.Size(96, 34);
+            this.AddProductButton.Size = new System.Drawing.Size(80, 34);
             this.AddProductButton.TabIndex = 13;
             this.AddProductButton.Text = "Add";
             this.AddProductButton.UseVisualStyleBackColor = true;
@@ -188,7 +188,7 @@
             // 
             // ModifyProductButton
             // 
-            this.ModifyProductButton.Location = new System.Drawing.Point(870, 422);
+            this.ModifyProductButton.Location = new System.Drawing.Point(869, 422);
             this.ModifyProductButton.Name = "ModifyProductButton";
             this.ModifyProductButton.Size = new System.Drawing.Size(96, 34);
             this.ModifyProductButton.TabIndex = 14;

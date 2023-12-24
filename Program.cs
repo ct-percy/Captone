@@ -1,11 +1,12 @@
-﻿using System;
+﻿using IMSLocal.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace C968_PA
+namespace IMSLocal
 {
     internal static class Program
     {
@@ -15,12 +16,17 @@ namespace C968_PA
         [STAThread]
         static void Main()
         {
-           
+
+        
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Log_In());
+
+
+
             
-            
+
 
 
         }

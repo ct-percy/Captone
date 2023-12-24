@@ -1,23 +1,9 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Drawing.Text;
-using System.IO.Ports;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class AddPart : Form
     {
@@ -66,14 +52,7 @@ namespace C968_PA
         }
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-            int machineId;
-            string companyName;
-            int partID = int.Parse(IDtextbox.Text);
-            string name = NameTextbox.Text;
-            decimal price = decimal.Parse(PriceTextbox.Text);
-            int inStock = int.Parse(InvTextbox.Text);
-            int max = int.Parse(MaxTextbox.Text);
-            int min = int.Parse(MinTextbox.Text);
+          
 
             #region Exceptions and Validation
             if (NameTextbox.Text == string.Empty & PriceTextbox.Text == string.Empty & InvTextbox.Text == string.Empty & MaxTextbox.Text == string.Empty &
@@ -118,7 +97,14 @@ namespace C968_PA
             }
             else
             {
-              
+                int machineId;
+                string companyName;
+                int partID = int.Parse(IDtextbox.Text);
+                string name = NameTextbox.Text;
+                decimal price = decimal.Parse(PriceTextbox.Text);
+                int inStock = int.Parse(InvTextbox.Text);
+                int max = int.Parse(MaxTextbox.Text);
+                int min = int.Parse(MinTextbox.Text);
 
                 if (min > max)
                 {
@@ -161,14 +147,14 @@ namespace C968_PA
 
                     machineId = int.Parse(InOutTextbox.Text);
                     string type = "Inhouse";
-                    await Query.addPart(partID, name, price, inStock, max, min, type, null, machineId, user);
+                    await Parts.addPart(partID, name, price, inStock, max, min, type, null, machineId, user);
 
                 }
                 else if (InOutLabel.Text == "Company Name")
                 {
                     string type = "Outsourced";
                     companyName = InOutTextbox.Text;
-                    await Query.addPart(partID, name, price, inStock, max, min,type, companyName, null, user);
+                    await Parts.addPart(partID, name, price, inStock, max, min,type, companyName, null, user);
                 }
             }
 

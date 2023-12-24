@@ -1,4 +1,4 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class ModifyProduct : Form
 
@@ -37,9 +37,9 @@ namespace C968_PA
 
            
 
-            partList = new BindingList<Parts>(await Query.getAllParts());
+            partList = new BindingList<Parts>(await Parts.getAllParts());
 
-            associatedPartList = new BindingList<AssociatedParts>(await Query.getAssociatedParts(product.ProductID));
+            associatedPartList = new BindingList<AssociatedParts>(await AssociatedParts.getAssociatedParts(product.ProductID));
 
             AllPartsDGV.DataSource = partList;
             AllPartsDGV.Columns["createdBy"].Visible = false;
@@ -253,12 +253,7 @@ namespace C968_PA
         private async void SaveButton_Click(object sender, EventArgs e)
         {
 
-            int productID = int.Parse(IDTextbox.Text);
-            string name = NameTextbox.Text;
-            decimal price = decimal.Parse(PriceTextbox.Text);
-            int inStock = int.Parse(InvTextbox.Text);
-            int max = int.Parse(MaxTextbox.Text);
-            int min = int.Parse(MinTextbox.Text);
+          
 
 
 
@@ -270,7 +265,13 @@ namespace C968_PA
                 MessageBox.Show("Entries Not Valid.", "", MessageBoxButtons.OK); return;
 
             }
-        
+
+            int productID = int.Parse(IDTextbox.Text);
+            string name = NameTextbox.Text;
+            decimal price = decimal.Parse(PriceTextbox.Text);
+            int inStock = int.Parse(InvTextbox.Text);
+            int max = int.Parse(MaxTextbox.Text);
+            int min = int.Parse(MinTextbox.Text);
 
             if (min > max)
             {
@@ -304,10 +305,10 @@ namespace C968_PA
             #endregion
 
 
-            await Query.updateProduct(productID, name, price, inStock, max, min, user);
+            await Products.updateProduct(productID, name, price, inStock, max, min, user);
             try
             {
-                await Query.deleteAssociatedParts(productID);
+                await AssociatedParts.deleteAssociatedParts(productID);
             }
             catch { }
 
@@ -323,7 +324,7 @@ namespace C968_PA
                     int partMin = associatedPartList[i].Min;
 
 
-                    await Query.addAssociatedPart(productID, partId, partName, partPrice, partStock, partMax, partMin);
+                    await AssociatedParts.addAssociatedPart(productID, partId, partName, partPrice, partStock, partMax, partMin);
 
                 }
 

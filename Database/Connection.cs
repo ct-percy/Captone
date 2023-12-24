@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace C968_PA.Database
+namespace IMSLocal.Database
 {
     public static class Connection
     {

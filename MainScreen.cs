@@ -1,23 +1,17 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class MainScreen : Form
     {
-
 
         private int modpartID;
         private int modprodID;
@@ -25,11 +19,19 @@ namespace C968_PA
         BindingList<Products> productList;
         string userName;
 
+
+        
         public async void loadData()
         {
 
-            partList = new BindingList<Parts>(await Query.getAllParts());
-            productList = new BindingList<Products>(await Query.getAllProducts());
+           
+            productList = new BindingList<Products>(await Products.getAllProducts());
+
+
+            partList = new BindingList<Parts>(await Parts.getAllParts());
+
+
+          
 
             PartsDGV.DataSource = partList;
             PartsDGV.Columns["createdBy"].Visible = false;
@@ -37,11 +39,13 @@ namespace C968_PA
             PartsDGV.Columns["updatedBy"].Visible = false;
             PartsDGV.Columns["updatedOn"].Visible = false;
 
-            ProductsDGV.DataSource= productList;
+            ProductsDGV.DataSource = productList;
             ProductsDGV.Columns["createdBy"].Visible = false;
             ProductsDGV.Columns["createdOn"].Visible = false;
             ProductsDGV.Columns["updatedBy"].Visible = false;
             ProductsDGV.Columns["updatedOn"].Visible = false;
+
+            
 
 
         }
@@ -49,6 +53,7 @@ namespace C968_PA
         {
 
             InitializeComponent();
+
 
             loadData();
            
@@ -130,7 +135,7 @@ namespace C968_PA
             string type = PartsDGV.SelectedCells[6].Value.ToString();
             int partID = int.Parse(PartsDGV.SelectedCells[0].Value.ToString());
 
-            BindingList<AssociatedParts> associatedProduct = new BindingList<AssociatedParts>(await Query.getAssociatedProduct(partID));
+            BindingList<AssociatedParts> associatedProduct = new BindingList<AssociatedParts>(await AssociatedParts.getAssociatedProduct(partID));
 
 
             if (associatedProduct.Count() > 0 )
@@ -146,15 +151,15 @@ namespace C968_PA
                 if (deletePart == DialogResult.Yes) { 
                     if (type == "Inhouse")
                     {
-                        await Query.deleteInhouse(partID);
+                        await Inhouses.deleteInhouse(partID);
                        
                     }
                     else if (type == "Outsourced")
                     {
-                        await Query.deleteOutsource(partID);
+                        await Outsource.deleteOutsource(partID);
                     }
 
-                    await Query.deletePart(partID);
+                    await Parts.deletePart(partID);
                 }
             }
             loadData();
@@ -177,7 +182,7 @@ namespace C968_PA
 
             if (partType == "Inhouse")
             {
-                var part = await Query.getInhouse(modpartID);
+                var part = await Inhouses.getInhouse(modpartID);
 
              ModifyPart modifypart = new ModifyPart(part.First() as Inhouses, userName);
                 modifypart.Show();
@@ -185,7 +190,7 @@ namespace C968_PA
 
          else if (partType == "Outsourced")
             {
-                var part = await Query.getOutsource(modpartID);
+                var part = await Outsource.getOutsource(modpartID);
 
                 ModifyPart modifypart = new ModifyPart(part.First() as Outsource, userName);
                 modifypart.Show();
@@ -203,6 +208,8 @@ namespace C968_PA
 
         private void AddProductButton_Click(object sender, EventArgs e)
         {
+           
+          
             
             AddProduct addproduct = new AddProduct(userName);
             addproduct.Show();
@@ -220,13 +227,13 @@ namespace C968_PA
 
             Products p = ProductsDGV.CurrentRow.DataBoundItem as Products;
 
-            BindingList<AssociatedParts> associatedParts = new BindingList<AssociatedParts>(await Query.getAssociatedParts(p.ProductID));
+            BindingList<AssociatedParts> associatedParts = new BindingList<AssociatedParts>(await AssociatedParts.getAssociatedParts(p.ProductID));
 
             
              if (ProductsDGV.CurrentRow.Selected)
             {
                 DialogResult dialogResult = MessageBox.Show("Delete Product?", "", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes) { await Query.deleteProduct(p.ProductID); await Query.deleteAssociatedParts(p.ProductID); loadData(); }
+                if (dialogResult == DialogResult.Yes) { await Products.deleteProduct(p.ProductID); await AssociatedParts.deleteAssociatedParts(p.ProductID); loadData(); }
             }
         }
 
@@ -251,7 +258,7 @@ namespace C968_PA
             }
 
             modprodID = (int)ProductsDGV.CurrentRow.Cells[0].Value;
-            var product = await Query.getProduct(modprodID);
+            var product = await Products.getProduct(modprodID);
             ModifyProduct modifyProduct = new ModifyProduct(modprodID, product as Products, userName);
             modifyProduct.Show();
         }
@@ -353,7 +360,7 @@ namespace C968_PA
             #endregion
 
             #region Generate All Inhouse Parts
-            BindingList<Inhouses> inhouseList = new BindingList<Inhouses>(await Query.getAllInhouse());
+            BindingList<Inhouses> inhouseList = new BindingList<Inhouses>(await Inhouses.getAllInhouse());
 
             if (reportsComboBox.SelectedIndex == 1)
             {
@@ -390,7 +397,7 @@ namespace C968_PA
             #endregion
 
             #region Generate All Outsourced Parts
-            BindingList<Outsource> outsourceList = new BindingList<Outsource>(await Query.getAllOutsource());
+            BindingList<Outsource> outsourceList = new BindingList<Outsource>(await Outsource.getAllOutsource());
 
             if (reportsComboBox.SelectedIndex == 2)
             {
@@ -465,7 +472,7 @@ namespace C968_PA
 
             #region Generate All Associated Parts
 
-            BindingList<AssociatedParts> associatedPartsList = new BindingList<AssociatedParts>(await Query.getAllAssociatedParts()); 
+            BindingList<AssociatedParts> associatedPartsList = new BindingList<AssociatedParts>(await AssociatedParts.getAllAssociatedParts()); 
 
             if (reportsComboBox.SelectedIndex == 4)
             {

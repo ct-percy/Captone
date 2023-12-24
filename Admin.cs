@@ -1,4 +1,4 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class Admin : Form
     {
@@ -20,7 +20,7 @@ namespace C968_PA
       
         public async void loadData()
         {
-            employees = new BindingList<Employees>(await Query.getEmployees());
+            employees = new BindingList<Employees>(await Employees.getEmployees());
             employeesDGV.DataSource = employees;
         }
         public Admin()
@@ -84,12 +84,12 @@ namespace C968_PA
 
                 if (adminRB.Checked == true)
                 {
-                    await Query.updateEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "Admin", oldId, user);
+                    await Employees.updateEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "Admin", oldId, user);
 
                 }
                 else if (userRB.Checked == true)
                 {
-                    await Query.updateEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "User", oldId, user);
+                    await Employees.updateEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "User", oldId, user);
 
                 }
             }
@@ -114,12 +114,12 @@ namespace C968_PA
 
                 if (adminRB.Checked == true)
                 {
-                    await Query.addEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "Admin", user);
+                    await Employees.addEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "Admin", user);
 
                 }
                 else if (userRB.Checked == true)
                 {
-                    await Query.addEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "User", user);
+                    await Employees.addEmployee(int.Parse(employeeIDTextbox.Text), firstNameTextbox.Text, lastNameTextbox.Text, usernameTextbox.Text, passwordTextbox.Text, "User", user);
 
                 }
             }
@@ -193,7 +193,7 @@ namespace C968_PA
         private async void deleteButton_Click(object sender, EventArgs e)
         {
             int employeeId = int.Parse(employeesDGV.SelectedCells[0].Value.ToString());
-            await Query.deleteEmployee(employeeId);
+            await Employees.deleteEmployee(employeeId);
             loadData();
             
         }
@@ -211,7 +211,7 @@ namespace C968_PA
         private  async void logInButton_Click(object sender, EventArgs e)
         {
 
-            employees = new BindingList<Employees>(await Query.getEmployees());
+            employees = new BindingList<Employees>(await Employees.getEmployees());
 
             for (int i = 0; i < employees.Count; i++)
             {

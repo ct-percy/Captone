@@ -1,4 +1,4 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace C968_PA
+namespace IMSLocal
 {
     
     public partial class AddProduct : Form
@@ -23,7 +23,7 @@ namespace C968_PA
 
         private async void loadData()
         {
-            partList = new BindingList<Parts>(await Query.getAllParts());
+            partList = new BindingList<Parts>(await Parts.getAllParts());
             
             AllPartsDGV.DataSource = partList;
             AllPartsDGV.Columns["createdBy"].Visible = false;
@@ -112,14 +112,6 @@ namespace C968_PA
         private async void AddProductButton_Click(object sender, EventArgs e)
         {
 
-
-            int productID = int.Parse(IDTextbox.Text);
-            string name = NameTextbox.Text;
-            decimal price = decimal.Parse(PriceTextbox.Text);
-            int inStock = int.Parse(InvTextbox.Text);
-            int max = int.Parse(MaxTextbox.Text);
-            int min = int.Parse(MinTextbox.Text);
-
             
 
             #region Exceptions and Validations
@@ -160,7 +152,13 @@ namespace C968_PA
                 MessageBox.Show("Min Must Have A Number", "", MessageBoxButtons.OK);
                 return;
             }
-           
+
+            int productID = int.Parse(IDTextbox.Text);
+            string name = NameTextbox.Text;
+            decimal price = decimal.Parse(PriceTextbox.Text);
+            int inStock = int.Parse(InvTextbox.Text);
+            int max = int.Parse(MaxTextbox.Text);
+            int min = int.Parse(MinTextbox.Text);
 
 
             if (min > max)
@@ -192,13 +190,9 @@ namespace C968_PA
                 InvTextbox.BackColor = Color.Yellow;
                 return;
             }
-
-
             #endregion
 
-           
-
-            await Query.addProduct(productID,name,price,inStock,max,min, user);
+            await Products.addProduct(productID,name,price,inStock,max,min, user);
 
             if (associatedPartList.Count > 0)
             {
@@ -212,7 +206,7 @@ namespace C968_PA
                     int partMin = associatedPartList[i].Min;
 
 
-                    await Query.addAssociatedPart(productID, partId, partName, partPrice, partStock, partMax, partMin);
+                    await AssociatedParts.addAssociatedPart(productID, partId, partName, partPrice, partStock, partMax, partMin);
 
                 }
 

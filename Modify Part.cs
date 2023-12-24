@@ -1,4 +1,4 @@
-﻿using C968_PA.Database;
+﻿using IMSLocal.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace C968_PA
+namespace IMSLocal
 {
     public partial class ModifyPart : Form
     {
@@ -94,14 +94,7 @@ namespace C968_PA
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-            int machineId;
-            string companyName;
-            int pID = int.Parse(IDtextbox.Text);
-            string name = NameTextbox.Text;
-            decimal price = decimal.Parse(PriceTextbox.Text);
-            int inStock = int.Parse(InvTextbox.Text);
-            int max = int.Parse(MaxTextbox.Text);
-            int min = int.Parse(MinTextbox.Text);
+            
 
             #region Exceptions and Validation
 
@@ -159,8 +152,18 @@ namespace C968_PA
                 return;
             }
 
+           
+
             else
             {
+                int machineId;
+                string companyName;
+                int pID = int.Parse(IDtextbox.Text);
+                string name = NameTextbox.Text;
+                decimal price = decimal.Parse(PriceTextbox.Text);
+                int inStock = int.Parse(InvTextbox.Text);
+                int max = int.Parse(MaxTextbox.Text);
+                int min = int.Parse(MinTextbox.Text);
 
                 if (min > max)
                 {
@@ -201,16 +204,16 @@ namespace C968_PA
                     machineId = int.Parse(InOutTextbox.Text);
                     try
                     {
-                        await Query.updateInhouse(pID, name, price, inStock, max, min, machineId, user);
+                        await Inhouses.updateInhouse(pID, name, price, inStock, max, min, machineId, user);
                     }
                     catch
                     { 
-                     await Query.deleteOutsource(pID);
+                     await Outsource.deleteOutsource(pID);
 
-                        await Query.addInhouse(pID, name, price, inStock, max, min, machineId, user);
+                        await Inhouses.addInhouse(pID, name, price, inStock, max, min, machineId, user);
                     }
 
-                    await Query.updatePart(pID, name, price, inStock, max, min, "Inhouse", user);
+                    await Parts.updatePart(pID, name, price, inStock, max, min, "Inhouse", user);
 
                 }
                 else if (OutsourcedRB.Checked == true)
@@ -219,19 +222,19 @@ namespace C968_PA
                     companyName = InOutTextbox.Text;
                     try
                     {
-                        await Query.updateOutsource(pID, name, price, inStock, max, min, companyName, user);
+                        await Outsource.updateOutsource(pID, name, price, inStock, max, min, companyName, user);
                     }
                     catch
                     {
-                        await Query.deleteInhouse(pID);
-                        await Query.addOutsource(pID, name, price, inStock, max, min, companyName, user);
+                        await Inhouses.deleteInhouse(pID);
+                        await Outsource.addOutsource(pID, name, price, inStock, max, min, companyName, user);
                     }
-                    await Query.updatePart(pID, name, price, inStock, max, min, "Outsourced", user);
+                    await Parts.updatePart(pID, name, price, inStock, max, min, "Outsourced", user);
 
                 }
                 try
                 {
-                    await Query.updateAssociatedParts(pID, name, price, inStock, max, min);
+                    await AssociatedParts.updateAssociatedParts(pID, name, price, inStock, max, min);
                 }
                 catch { }
 
