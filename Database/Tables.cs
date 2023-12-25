@@ -68,7 +68,7 @@ namespace IMSLocal.Database
 
         public static async Task updateEmployee(int employeeId, string firstName, string lastName, string username, string password, string type, int oldId, string user)
         {
-            await Connection._db.QueryAsync<Employees>("UPDATE Employees SET employeeID = '" + employeeId + "', firstName = '" + firstName + "', lastName ='" + lastName + "' userName = '" + username + "', password = '" + password + "', type ='" + type + "' updatedBy ='" + user + "', updatedOn ='" + DateTime.Now.ToUniversalTime().ToLocalTime().ToString() + "' WHERE employeeID =" + oldId);
+            await Connection._db.QueryAsync<Employees>("UPDATE Employees SET employeeID = '" + employeeId + "', firstName = '" + firstName + "', lastName ='" + lastName + "', userName = '" + username + "', password = '" + password + "', type ='" + type + "', updatedBy ='" + user + "', updatedOn ='" + DateTime.Now.ToUniversalTime().ToLocalTime().ToString() + "' WHERE employeeID =" + oldId);
         }
 
         public static async Task deleteEmployee(int employeeId)

@@ -128,6 +128,7 @@
             this.employeesDGV.Location = new System.Drawing.Point(532, 180);
             this.employeesDGV.Name = "employeesDGV";
             this.employeesDGV.ReadOnly = true;
+            this.employeesDGV.RowHeadersVisible = false;
             this.employeesDGV.RowHeadersWidth = 62;
             this.employeesDGV.RowTemplate.Height = 28;
             this.employeesDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

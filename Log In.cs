@@ -14,9 +14,9 @@ namespace IMSLocal
     public partial class Log_In : Form
     {
         BindingList<Employees> employees;
-        private async void loadData()
+        public async void loadData()
         {
-          
+            employees = new BindingList<Employees>(await Employees.getEmployees());
         }
 
         public Log_In()
@@ -41,7 +41,7 @@ namespace IMSLocal
 
         private  void logInButton_Click(object sender, EventArgs e)
         {
-            
+            bool activeUser = false;
 
             for (int i = 0; i < employees.Count(); i++)
             {
@@ -56,16 +56,20 @@ namespace IMSLocal
                     exitButton.Show();
                     label1.Visible = false;
                     label2.Visible = false;
-                }
-                else
-                {
-                    MessageBox.Show("Username and Password did not match");
+                    activeUser = true;
                     return;
+
                 }
+                
+                
             }
-            
-         
-            
+            if (activeUser == false)
+            {
+                MessageBox.Show("Username and Password did not match");
+                return;
+            }
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)

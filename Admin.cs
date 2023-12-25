@@ -125,6 +125,8 @@ namespace IMSLocal
             }
 
             MessageBox.Show("Employee Record Updated");
+            Log_In update = (Log_In)Application.OpenForms["Log_In"];
+            update.loadData();
             this.Close();
 
 
@@ -225,8 +227,9 @@ namespace IMSLocal
         {
 
             employees = new BindingList<Employees>(await Employees.getEmployees());
+            bool isAdmin = false;
 
-            for (int i = 0; i < employees.Count; i++)
+            for (int i = 0; i < employees.Count(); i++)
             {
                 if (adminUsername.Text == employees[i].userName && adminPassword.Text == employees[i].password && employees[i].type == "Admin")
                 {
@@ -236,22 +239,25 @@ namespace IMSLocal
                     editButton.Enabled = true;
                     deleteButton.Enabled = true;
                     searchButton.Enabled = true;
+                    isAdmin = true;
                     return;
                 }
-                else
-                {
-                    MessageBox.Show("Only an Administrator can access this form");
-                    employeesDGV.DataSource = null;
-                    saveButton.Enabled = false;
-                    newUserButton.Enabled = false;
-                    editButton.Enabled = false;
-                    deleteButton.Enabled = false;
-                    searchButton.Enabled = false;
-                    return;
-                }
+                
+               
 
             }
-           
+            if(isAdmin == false)
+            {
+                MessageBox.Show("Only an Administrator can access this form");
+                employeesDGV.DataSource = null;
+                saveButton.Enabled = false;
+                newUserButton.Enabled = false;
+                editButton.Enabled = false;
+                deleteButton.Enabled = false;
+                searchButton.Enabled = false;
+                return;
+            }
+
         }
 
         private void employeesDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
